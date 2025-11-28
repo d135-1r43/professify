@@ -67,3 +67,9 @@ curl -X POST http://localhost:8080/image \
 - Google Vertex AI (Gemini 3 Pro Image)
 - Qute templating
 - Jakarta REST
+
+---
+
+**Disclaimer:** This is a non-commercial tech demo project for educational purposes only.
+
+[View on GitHub](https://github.com/mhe/professify)

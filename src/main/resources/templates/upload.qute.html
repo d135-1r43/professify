@@ -55,9 +55,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
-                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(59, 130, 246, 0.08), transparent);
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
+            radial-gradient(ellipse 60% 40% at 80% 50%, rgba(59, 130, 246, 0.08), transparent);
             pointer-events: none;
         }
 
@@ -367,7 +366,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .loading-text {
@@ -397,199 +398,200 @@
     </style>
 </head>
 <body>
-    <div class="noise"></div>
-    <div class="gradient-bg"></div>
+<div class="noise"></div>
+<div class="gradient-bg"></div>
 
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
+<div class="container">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                </svg>
+            </div>
+            <h1>Professify</h1>
+        </div>
+        <p class="tagline">Transform your selfie into an executive-level professional headshot with AI</p>
+    </header>
+
+    <section class="upload-section">
+        <div class="upload-area" id="dropZone">
+            <div class="upload-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                </svg>
+            </div>
+            <p class="upload-text">Drop your photo here, or <span>browse</span></p>
+            <p class="upload-hint">Supports JPG and PNG</p>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png">
+        </div>
+
+        <div class="action-bar">
+            <button class="btn btn-primary" id="generateBtn" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="18" height="18">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
+                </svg>
+                Generate Headshot
+            </button>
+        </div>
+    </section>
+
+    <section class="results-section" id="resultsSection">
+        <div class="results-header">
+            <h2>Results</h2>
+        </div>
+
+        <div class="images-grid">
+            <div class="image-card">
+                <div class="image-card-header">
+                    <h3>Original</h3>
+                    <span class="badge">Input</span>
                 </div>
-                <h1>Professify</h1>
-            </div>
-            <p class="tagline">Transform your selfie into an executive-level professional headshot with AI</p>
-        </header>
-
-        <section class="upload-section">
-            <div class="upload-area" id="dropZone">
-                <div class="upload-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                    </svg>
-                </div>
-                <p class="upload-text">Drop your photo here, or <span>browse</span></p>
-                <p class="upload-hint">Supports JPG and PNG</p>
-                <input type="file" id="fileInput" accept="image/jpeg,image/png">
-            </div>
-
-            <div class="action-bar">
-                <button class="btn btn-primary" id="generateBtn" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="18" height="18">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
-                    </svg>
-                    Generate Headshot
-                </button>
-            </div>
-        </section>
-
-        <section class="results-section" id="resultsSection">
-            <div class="results-header">
-                <h2>Results</h2>
-            </div>
-
-            <div class="images-grid">
-                <div class="image-card">
-                    <div class="image-card-header">
-                        <h3>Original</h3>
-                        <span class="badge">Input</span>
+                <div class="image-card-body">
+                    <div class="placeholder" id="originalPlaceholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+                        </svg>
+                        <p>No image selected</p>
                     </div>
-                    <div class="image-card-body">
-                        <div class="placeholder" id="originalPlaceholder">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                            </svg>
-                            <p>No image selected</p>
-                        </div>
-                        <img id="originalImg" style="display:none;">
-                    </div>
-                </div>
-
-                <div class="image-card result-card">
-                    <div class="image-card-header">
-                        <h3>Professional</h3>
-                        <span class="badge badge-ai">AI Generated</span>
-                    </div>
-                    <div class="image-card-body">
-                        <div class="placeholder" id="resultPlaceholder">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
-                            </svg>
-                            <p>Result will appear here</p>
-                        </div>
-                        <img id="resultImg" style="display:none;">
-                        <div class="loading-overlay" id="loading">
-                            <div class="spinner"></div>
-                            <p class="loading-text">Generating your headshot...</p>
-                        </div>
-                    </div>
-                    <div class="image-card-footer" id="downloadSection" style="display:none;">
-                        <button class="btn btn-secondary" id="downloadBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                            </svg>
-                            Download
-                        </button>
-                    </div>
+                    <img id="originalImg" style="display:none;">
                 </div>
             </div>
-        </section>
 
-        <footer>
-            <p>Powered by Gemini AI</p>
-        </footer>
-    </div>
+            <div class="image-card result-card">
+                <div class="image-card-header">
+                    <h3>Professional</h3>
+                    <span class="badge badge-ai">AI Generated</span>
+                </div>
+                <div class="image-card-body">
+                    <div class="placeholder" id="resultPlaceholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
+                        </svg>
+                        <p>Result will appear here</p>
+                    </div>
+                    <img id="resultImg" style="display:none;">
+                    <div class="loading-overlay" id="loading">
+                        <div class="spinner"></div>
+                        <p class="loading-text">Generating your headshot...</p>
+                    </div>
+                </div>
+                <div class="image-card-footer" id="downloadSection" style="display:none;">
+                    <button class="btn btn-secondary" id="downloadBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                        </svg>
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script>
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const generateBtn = document.getElementById('generateBtn');
-        const loading = document.getElementById('loading');
-        const originalImg = document.getElementById('originalImg');
-        const originalPlaceholder = document.getElementById('originalPlaceholder');
-        const resultImg = document.getElementById('resultImg');
-        const resultPlaceholder = document.getElementById('resultPlaceholder');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const downloadSection = document.getElementById('downloadSection');
-        const resultsSection = document.getElementById('resultsSection');
+    <footer>
+        <p>Powered by Gemini AI</p>
+        <p style="margin-top: 8px;">This is a non-commercial tech demo. <a href="https://github.com/d135-1r43/professify" target="_blank">View on GitHub</a></p>
+    </footer>
+</div>
 
-        let selectedFile = null;
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const loading = document.getElementById('loading');
+    const originalImg = document.getElementById('originalImg');
+    const originalPlaceholder = document.getElementById('originalPlaceholder');
+    const resultImg = document.getElementById('resultImg');
+    const resultPlaceholder = document.getElementById('resultPlaceholder');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const downloadSection = document.getElementById('downloadSection');
+    const resultsSection = document.getElementById('resultsSection');
 
-        dropZone.addEventListener('click', () => fileInput.click());
+    let selectedFile = null;
 
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
+    dropZone.addEventListener('click', () => fileInput.click());
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) handleFile(files[0]);
-        });
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
 
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) handleFile(e.target.files[0]);
-        });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) handleFile(files[0]);
+    });
 
-        function handleFile(file) {
-            if (!file.type.match(/^image\/(jpeg|png)$/)) {
-                alert('Please select a JPEG or PNG image');
-                return;
-            }
-            selectedFile = file;
-            dropZone.classList.add('has-file');
-            dropZone.querySelector('.upload-text').innerHTML = '<span>' + file.name + '</span>';
-            dropZone.querySelector('.upload-hint').textContent = 'Click to change';
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) handleFile(e.target.files[0]);
+    });
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                originalImg.src = e.target.result;
-                originalImg.style.display = 'block';
-                originalPlaceholder.style.display = 'none';
-                generateBtn.disabled = false;
-                resultsSection.classList.add('visible');
-            };
-            reader.readAsDataURL(file);
+    function handleFile(file) {
+        if (!file.type.match(/^image\/(jpeg|png)$/)) {
+            alert('Please select a JPEG or PNG image');
+            return;
         }
+        selectedFile = file;
+        dropZone.classList.add('has-file');
+        dropZone.querySelector('.upload-text').innerHTML = '<span>' + file.name + '</span>';
+        dropZone.querySelector('.upload-hint').textContent = 'Click to change';
 
-        generateBtn.addEventListener('click', async () => {
-            if (!selectedFile) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            originalImg.src = e.target.result;
+            originalImg.style.display = 'block';
+            originalPlaceholder.style.display = 'none';
+            generateBtn.disabled = false;
+            resultsSection.classList.add('visible');
+        };
+        reader.readAsDataURL(file);
+    }
 
-            generateBtn.disabled = true;
-            loading.classList.add('active');
-            resultImg.style.display = 'none';
-            resultPlaceholder.style.display = 'flex';
-            downloadSection.style.display = 'none';
+    generateBtn.addEventListener('click', async () => {
+        if (!selectedFile) return;
 
-            const formData = new FormData();
-            formData.append('file', selectedFile);
+        generateBtn.disabled = true;
+        loading.classList.add('active');
+        resultImg.style.display = 'none';
+        resultPlaceholder.style.display = 'flex';
+        downloadSection.style.display = 'none';
 
-            try {
-                const response = await fetch('/image', {
-                    method: 'POST',
-                    body: formData
-                });
+        const formData = new FormData();
+        formData.append('file', selectedFile);
 
-                if (!response.ok) throw new Error('Generation failed');
+        try {
+            const response = await fetch('/image', {
+                method: 'POST',
+                body: formData
+            });
 
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                resultImg.src = url;
-                resultImg.style.display = 'block';
-                resultPlaceholder.style.display = 'none';
-                downloadSection.style.display = 'flex';
+            if (!response.ok) throw new Error('Generation failed');
 
-                downloadBtn.onclick = () => {
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'professional-headshot.png';
-                    a.click();
-                };
-            } catch (err) {
-                resultPlaceholder.innerHTML = '<p>Error: ' + err.message + '</p>';
-            } finally {
-                loading.classList.remove('active');
-                generateBtn.disabled = false;
-            }
-        });
-    </script>
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            resultImg.src = url;
+            resultImg.style.display = 'block';
+            resultPlaceholder.style.display = 'none';
+            downloadSection.style.display = 'flex';
+
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'professional-headshot.png';
+                a.click();
+            };
+        } catch (err) {
+            resultPlaceholder.innerHTML = '<p>Error: ' + err.message + '</p>';
+        } finally {
+            loading.classList.remove('active');
+            generateBtn.disabled = false;
+        }
+    });
+</script>
 </body>
 </html>
