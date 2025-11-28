@@ -1,75 +1,69 @@
-# professify
+# Professify
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+AI-powered professional headshot generator. Upload a selfie and get a polished, executive-level LinkedIn profile photo.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Features
 
-## Running the application in dev mode
+- Transform casual selfies into professional headshots
+- Uses Google Vertex AI (Gemini) for image generation
+- Web-based upload interface
+- REST API for programmatic access
 
-You can run your application in dev mode that enables live coding using:
+## Prerequisites
 
-```shell script
+- Java 21
+- A Google Cloud account with Vertex AI API enabled
+- Vertex AI API key
+
+## Configuration
+
+Set your Vertex AI API key in `application.properties`:
+
+```properties
+vertex.api.key=your-api-key-here
+```
+
+## Running the Application
+
+### Development Mode
+
+```bash
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+The application will be available at http://localhost:8080. Dev UI is at http://localhost:8080/q/dev/.
 
-## Packaging and running the application
+### Production
 
-The application can be packaged using:
-
-```shell script
+```bash
 ./mvnw package
+java -jar target/quarkus-app/quarkus-run.jar
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### Native Executable
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
+```bash
 ./mvnw package -Dnative
+./target/professify-1.0.0-SNAPSHOT-runner
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## Usage
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+### Web Interface
+
+Navigate to http://localhost:8080 and upload your selfie through the web form.
+
+### REST API
+
+```bash
+curl -X POST http://localhost:8080/image \
+  -F "file=@your-selfie.jpg" \
+  --output professional-headshot.png
 ```
 
-You can then execute your native executable with: `./target/professify-1.0.0-SNAPSHOT-runner`
+## Tech Stack
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- REST Qute ([guide](https://quarkus.io/guides/qute-reference#rest_integration)): Qute integration for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- LangChain4j AI Gemini ([guide](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)): Provides integration of Quarkus LangChain4j with AI Gemini
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
-
-### REST Qute
-
-Create your web page using Quarkus REST and Qute
-
-[Related guide section...](https://quarkus.io/guides/qute#type-safe-templates)
+- Quarkus 3.x (Java 21)
+- Google Vertex AI (Gemini 3 Pro Image)
+- Qute templating
+- Jakarta REST

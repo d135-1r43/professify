@@ -45,3 +45,4 @@ This is a Quarkus application (Java 21) that provides AI-powered image generatio
 ### Configuration
 
 OpenAI API key must be configured. The timeout is set to 80s in `application.properties`.
+- Do not add the project tree to the README
