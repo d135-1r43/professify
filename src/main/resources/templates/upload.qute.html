@@ -1,165 +1,495 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Professify - Professional Headshot Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professify - AI Professional Headshots</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
-        }
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
+
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --border-color: #3f3f46;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent: #8b5cf6;
+            --accent-hover: #a78bfa;
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            --success: #22c55e;
+            --radius: 12px;
+            --radius-lg: 16px;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(59, 130, 246, 0.08), transparent);
+            pointer-events: none;
+        }
+
         .container {
-            max-width: 800px;
+            position: relative;
+            max-width: 1000px;
             margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        header {
             text-align: center;
+            margin-bottom: 48px;
         }
-        h1 {
-            color: #4695EB;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
         }
-        .subtitle {
-            color: #888;
-            margin-bottom: 2rem;
-        }
-        .upload-area {
-            border: 2px dashed #4695EB;
-            border-radius: 16px;
-            padding: 40px;
-            margin: 20px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .upload-area:hover {
-            border-color: #be9100;
-            background: rgba(70, 149, 235, 0.1);
-        }
-        .upload-area.dragover {
-            border-color: #be9100;
-            background: rgba(190, 145, 0, 0.1);
-        }
-        #fileInput {
-            display: none;
-        }
-        .btn {
-            background: linear-gradient(135deg, #4695EB 0%, #3a7bc8 100%);
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(70, 149, 235, 0.4);
-        }
-        .btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .images {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-        .image-box {
-            background: rgba(255,255,255,0.05);
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), #6366f1);
             border-radius: 12px;
-            padding: 15px;
-            flex: 1;
-            min-width: 280px;
-            max-width: 380px;
-        }
-        .image-box h3 {
-            margin: 0 0 10px 0;
-            color: #be9100;
-        }
-        .image-box img {
-            max-width: 100%;
-            border-radius: 8px;
-            display: block;
-        }
-        .placeholder {
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #555;
         }
-        .loading {
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .upload-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius);
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--bg-primary);
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.1);
+            transform: scale(1.01);
+        }
+
+        .upload-area.has-file {
+            border-style: solid;
+            border-color: var(--success);
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .upload-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            background: var(--bg-tertiary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-secondary);
+        }
+
+        .upload-area.has-file .upload-icon {
+            background: rgba(34, 197, 94, 0.2);
+        }
+
+        .upload-area.has-file .upload-icon svg {
+            color: var(--success);
+        }
+
+        .upload-text {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .upload-text span {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .upload-hint {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        #fileInput {
             display: none;
-            margin: 20px 0;
         }
-        .loading.active {
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: white;
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-section.visible {
             display: block;
         }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .results-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .images-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .image-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .image-card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .image-card-header h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        .badge-ai {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-hover);
+        }
+
+        .image-card-body {
+            padding: 16px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+        }
+
+        .image-card-body img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .placeholder {
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .placeholder svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .image-card-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(9, 9, 11, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            border-radius: var(--radius-lg);
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
         .spinner {
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: #4695EB;
-            border-radius: 50%;
             width: 40px;
             height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            border: 3px solid var(--bg-tertiary);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        .download-btn {
-            display: none;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #be9100 0%, #9a7700 100%);
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
-        .download-btn.visible {
-            display: inline-block;
+
+        .result-card {
+            position: relative;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
         }
     </style>
 </head>
 <body>
+    <div class="noise"></div>
+    <div class="gradient-bg"></div>
+
     <div class="container">
-        <h1>Professify</h1>
-        <p class="subtitle">Transform your selfie into an executive-level professional headshot</p>
-
-        <div class="upload-area" id="dropZone">
-            <p>Drag & drop your selfie here or click to browse</p>
-            <input type="file" id="fileInput" accept="image/jpeg,image/png">
-        </div>
-
-        <button class="btn" id="generateBtn" disabled>Generate Professional Headshot</button>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Transforming your image...</p>
-        </div>
-
-        <div class="images">
-            <div class="image-box">
-                <h3>Original</h3>
-                <div class="placeholder" id="originalPlaceholder">No image selected</div>
-                <img id="originalImg" style="display:none;">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                </div>
+                <h1>Professify</h1>
             </div>
-            <div class="image-box">
-                <h3>Professional Headshot</h3>
-                <div class="placeholder" id="resultPlaceholder">Result will appear here</div>
-                <img id="resultImg" style="display:none;">
-                <button class="btn download-btn" id="downloadBtn">Download</button>
+            <p class="tagline">Transform your selfie into an executive-level professional headshot with AI</p>
+        </header>
+
+        <section class="upload-section">
+            <div class="upload-area" id="dropZone">
+                <div class="upload-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>
+                </div>
+                <p class="upload-text">Drop your photo here, or <span>browse</span></p>
+                <p class="upload-hint">Supports JPG and PNG</p>
+                <input type="file" id="fileInput" accept="image/jpeg,image/png">
             </div>
-        </div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" id="generateBtn" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="18" height="18">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
+                    </svg>
+                    Generate Headshot
+                </button>
+            </div>
+        </section>
+
+        <section class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2>Results</h2>
+            </div>
+
+            <div class="images-grid">
+                <div class="image-card">
+                    <div class="image-card-header">
+                        <h3>Original</h3>
+                        <span class="badge">Input</span>
+                    </div>
+                    <div class="image-card-body">
+                        <div class="placeholder" id="originalPlaceholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                            </svg>
+                            <p>No image selected</p>
+                        </div>
+                        <img id="originalImg" style="display:none;">
+                    </div>
+                </div>
+
+                <div class="image-card result-card">
+                    <div class="image-card-header">
+                        <h3>Professional</h3>
+                        <span class="badge badge-ai">AI Generated</span>
+                    </div>
+                    <div class="image-card-body">
+                        <div class="placeholder" id="resultPlaceholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
+                            </svg>
+                            <p>Result will appear here</p>
+                        </div>
+                        <img id="resultImg" style="display:none;">
+                        <div class="loading-overlay" id="loading">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Generating your headshot...</p>
+                        </div>
+                    </div>
+                    <div class="image-card-footer" id="downloadSection" style="display:none;">
+                        <button class="btn btn-secondary" id="downloadBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Powered by Gemini AI</p>
+        </footer>
     </div>
 
     <script>
@@ -172,6 +502,8 @@
         const resultImg = document.getElementById('resultImg');
         const resultPlaceholder = document.getElementById('resultPlaceholder');
         const downloadBtn = document.getElementById('downloadBtn');
+        const downloadSection = document.getElementById('downloadSection');
+        const resultsSection = document.getElementById('resultsSection');
 
         let selectedFile = null;
 
@@ -203,12 +535,17 @@
                 return;
             }
             selectedFile = file;
+            dropZone.classList.add('has-file');
+            dropZone.querySelector('.upload-text').innerHTML = '<span>' + file.name + '</span>';
+            dropZone.querySelector('.upload-hint').textContent = 'Click to change';
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 originalImg.src = e.target.result;
                 originalImg.style.display = 'block';
                 originalPlaceholder.style.display = 'none';
                 generateBtn.disabled = false;
+                resultsSection.classList.add('visible');
             };
             reader.readAsDataURL(file);
         }
@@ -220,8 +557,7 @@
             loading.classList.add('active');
             resultImg.style.display = 'none';
             resultPlaceholder.style.display = 'flex';
-            resultPlaceholder.textContent = 'Processing...';
-            downloadBtn.classList.remove('visible');
+            downloadSection.style.display = 'none';
 
             const formData = new FormData();
             formData.append('file', selectedFile);
@@ -239,7 +575,7 @@
                 resultImg.src = url;
                 resultImg.style.display = 'block';
                 resultPlaceholder.style.display = 'none';
-                downloadBtn.classList.add('visible');
+                downloadSection.style.display = 'flex';
 
                 downloadBtn.onclick = () => {
                     const a = document.createElement('a');
@@ -248,7 +584,7 @@
                     a.click();
                 };
             } catch (err) {
-                resultPlaceholder.textContent = 'Error: ' + err.message;
+                resultPlaceholder.innerHTML = '<p>Error: ' + err.message + '</p>';
             } finally {
                 loading.classList.remove('active');
                 generateBtn.disabled = false;

@@ -18,12 +18,16 @@ public class ImageGenService
 	private static final String API_ENDPOINT = "aiplatform.googleapis.com";
 	private static final String MODEL_ID = "gemini-3-pro-image-preview";
 	private static final Pattern DATA_PATTERN = Pattern.compile("\"data\":\\s*\"([^\"]+)\"");
-	private static final String PROMPT = "Transform my selfie into a crisp, executive-level professional headshot suitable for C-suite LinkedIn profiles. The lighting should be dramatic yet professional with soft shadows. My posture is confident and approachable, wearing a dark navy blazer. The background is a modern corporate office with floor-to-ceiling windows, slightly blurred.";
+
+	private static final String PROMPT = """
+		Transform my selfie into a crisp, executive-level professional headshot suitable for C-suite LinkedIn profiles. 
+		The lighting should be dramatic yet professional with soft shadows. My posture is confident and approachable, 
+		wearing a dark navy blazer. The background is a modern corporate office with floor-to-ceiling windows, slightly blurred.""";
 
 	@ConfigProperty(name = "vertex.api.key")
 	String apiKey;
 
-	private final HttpClient httpClient = HttpClient.newBuilder()
+	protected final HttpClient httpClient = HttpClient.newBuilder()
 		.connectTimeout(Duration.ofSeconds(30))
 		.build();
 
