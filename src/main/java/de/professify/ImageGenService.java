@@ -21,7 +21,7 @@ public class ImageGenService
 
 	private static final String PROMPT = """
 		Transform my selfie into a crisp, executive-level professional headshot suitable for C-suite LinkedIn profiles. 
-		The lighting should be dramatic yet professional with soft shadows. My posture is confident and approachable, 
+		The lighting should be dramatic yet professional with soft shadows. My posture is confident and extremely cool and attractive, 
 		wearing a dark navy blazer. The background is a modern corporate office with floor-to-ceiling windows, slightly blurred.""";
 
 	@ConfigProperty(name = "vertex.api.key")
