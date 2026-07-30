@@ -4,9 +4,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.regex.Matcher;
@@ -16,7 +18,7 @@ import java.util.regex.Pattern;
 public class ImageGenService
 {
 	private static final String API_ENDPOINT = "aiplatform.googleapis.com";
-	private static final String MODEL_ID = "gemini-3-pro-image-preview";
+	private static final String MODEL_ID = "gemini-3-pro-image";
 	private static final Pattern DATA_PATTERN = Pattern.compile("\"data\":\\s*\"([^\"]+)\"");
 
 	private static final String PROMPT = """
@@ -38,7 +40,7 @@ public class ImageGenService
 
 		String url = String.format(
 			"https://%s/v1/publishers/google/models/%s:streamGenerateContent?key=%s",
-			API_ENDPOINT, MODEL_ID, apiKey
+			API_ENDPOINT, MODEL_ID, URLEncoder.encode(apiKey, StandardCharsets.UTF_8)
 		);
 
 		HttpRequest request = HttpRequest.newBuilder()
