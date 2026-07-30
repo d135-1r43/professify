@@ -31,7 +31,7 @@ vertex.api.key=your-api-key-here
 ./mvnw quarkus:dev
 ```
 
-The application will be available at http://localhost:8080. Dev UI is at http://localhost:8080/q/dev/.
+The application will be available at http://localhost:8081. Dev UI is at http://localhost:8081/q/dev/.
 
 ### Production
 
@@ -51,12 +51,12 @@ java -jar target/quarkus-app/quarkus-run.jar
 
 ### Web Interface
 
-Navigate to http://localhost:8080 and upload your selfie through the web form.
+Navigate to http://localhost:8081 and upload your selfie through the web form.
 
 ### REST API
 
 ```bash
-curl -X POST http://localhost:8080/image \
+curl -X POST http://localhost:8081/image \
   -F "file=@your-selfie.jpg" \
   --output professional-headshot.png
 ```

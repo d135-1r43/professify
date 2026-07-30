@@ -21,7 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./mvnw package -Dnative
 ```
 
-Dev UI available at http://localhost:8080/q/dev/ when running in dev mode.
+Dev UI available at http://localhost:8081/q/dev/ when running in dev mode. The HTTP port is set to 8081 via `quarkus.http.port` in `application.properties`.
 
 ## Architecture
 
